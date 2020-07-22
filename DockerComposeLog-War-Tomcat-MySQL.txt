@@ -1,0 +1,46 @@
+$ docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                    NAMES
+cda2927ce8a1        ann:1.0.0           "catalina.sh run"   3 minutes ago       Up 3 minutes        0.0.0.0:8888->8080/tcp   admiring_leavitt
+$ docker-compose up -d
+Creating network "wartest_default" with the default driver
+Creating volume "wartest_my-db" with default driver
+Building war-test
+Step 1/4 : From tomcat:8.0.51-jre8-alpine
+ ---> fcc5ace83900
+Step 2/4 : RUN rm -rf /usr/local/tomcat/webapps/*
+ ---> Using cache
+ ---> 35b3afeffea1
+Step 3/4 : COPY ./target/war-test.war /usr/local/tomcat/webapps/ROOT.war
+ ---> 64ef7a310b68
+Step 4/4 : CMD ["catalina.sh","run"]
+ ---> Running in 5dc1a31ccf77
+Removing intermediate container 5dc1a31ccf77
+ ---> f174ff411358
+
+Successfully built f174ff411358
+Successfully tagged wartest_war-test:latest
+WARNING: Image for service war-test was built because it did not already exist. To rebuild this image you must use `docker-compose build` or `docker-compose up --build`.
+Creating wartest_war-test_1 ...
+Creating wartest_db_1 ...
+Creating wartest_war-test_1
+Creating wartest_war-test_1 ... done
+
+$ docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                               NAMES
+74ae1a222486        mysql:5.7           "docker-entrypoint.s…"   34 seconds ago      Up 33 seconds       0.0.0.0:3306->3306/tcp, 33060/tcp   wartest_db_1
+93b6da3b0ca9        wartest_war-test    "catalina.sh run"        34 seconds ago      Up 32 seconds       0.0.0.0:8080->8080/tcp              wartest_war-test_1
+cda2927ce8a1        ann:1.0.0           "catalina.sh run"        4 minutes ago       Up 4 minutes        0.0.0.0:8888->8080/tcp              admiring_leavitt
+$ docker images
+REPOSITORY                      TAG                  IMAGE ID            CREATED             SIZE
+wartest_war-test                latest               f174ff411358        52 seconds ago      106MB
+ann                             1.0.0                67af1b06cefe        6 minutes ago       106MB
+bootcampggdancy_cicd-pipeline   latest               e7b3161c8012        27 minutes ago      121MB
+mysql                           5.7                  d05c76dbbfcf        8 days ago          448MB
+alpine                          latest               961769676411        11 months ago       5.58MB
+ubuntu                          latest               a2a15febcdf3        11 months ago       64.2MB
+redis                           latest               f7302e4ab3a8        11 months ago       98.2MB
+weaveworks/scope                1.11.4               a082d48f0b39        11 months ago       78.5MB
+openjdk                         8-jdk-alpine         a3562aa0b991        14 months ago       105MB
+quay.io/ansible/molecule        2.20                 1171569d6ba4        16 months ago       704MB
+tomcat                          8.0.51-jre8-alpine   fcc5ace83900        2 years ago         106MB
+$
