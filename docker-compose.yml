@@ -1,9 +1,11 @@
 version: '3.3'
 services:
+  #Web app, we build the Dockerfile directly from here.
   war-test:
     build: .
     ports:
       - "8080:8080"
+  #MySQL DB
   db:
     image: mysql:5.7
     restart: always
